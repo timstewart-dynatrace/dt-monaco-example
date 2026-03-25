@@ -1,0 +1,20 @@
+# Dynatrace Monaco Environments Configuration
+#
+# This file defines the source and target environments for migration.
+# The URLs and tokens should match your actual Dynatrace tenants.
+#
+# For security, use environment variables:
+# - SOURCE_TENANT_URL, SOURCE_TENANT_TOKEN
+# - TARGET_TENANT_URL, TARGET_TENANT_TOKEN
+#
+
+environments:
+  source:
+    name: source
+    url: https://source-environment.live.dynatrace.com
+    token: your_source_api_token
+  
+  target:
+    name: target
+    url: https://target-environment.live.dynatrace.com
+    token: your_target_api_token
