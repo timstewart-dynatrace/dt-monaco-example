@@ -20,19 +20,17 @@ Complete migration of all configurations from one Dynatrace tenant to another. I
 ---
 
 ### 📦 **monaco_s2s_sua_migration/**
-**Managed-to-SaaS Migration Export (SaaS Upgrade Assistant)
+**SaaS-to-SaaS Configuration Migration**
 
-Export Dynatrace Managed environment configurations for migration to SaaS. Generates archives compatible with the **SaaS Upgrade Assistant** app. Ideal for:
-- Managed → SaaS environment upgrades
-- Configuration export for SaaS Upgrade Assistant
-- Evaluating configurations before migration
-- Batch migration of multiple environments
+Export and migrate configurations between Dynatrace SaaS tenants. Ideal for:
+- Cross-tenant SaaS configuration migration
+- Configuration backup and replication
+- Configuration evaluation before migration
+- Batch migration of multiple SaaS environments
 
-**Includes:** Shell script for export, complete usage guide, SaaS Upgrade Assistant integration guide, troubleshooting
+**Includes:** Shell script for export, complete usage guide, troubleshooting
 
 👉 **[See monaco_s2s_sua_migration/README.md](monaco_s2s_sua_migration/README.md)**
-
-**Resources:** [SaaS Upgrade Assistant Docs](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant)
 
 ---
 
@@ -64,8 +62,8 @@ python3 scripts/migrate.py
 ### SaaS-to-SaaS Export
 ```bash
 cd monaco_s2s_sua_migration/
-export ENV_TOKEN="dt0c01.xxxxxxxxxxxx..."
-./scripts/s2s-export.sh your-environment-id managed.example.com
+export ENV_TOKEN="dt0c01.source_tenant.xxxxxxxxxxxx..."
+./scripts/s2s-export.sh abc12345
 ```
 
 ### View Examples
@@ -119,7 +117,7 @@ Each package contains complete standalone documentation:
 
 | Need | Tool | Time | Scope |
 |------|------|------|-------|
-| Managed → SaaS migration via SaaS Upgrade Assistant | `monaco_s2s_sua_migration` + (SaaS Upgrade Assistant UI) | 10-60 min | Export + Manual fix & deploy |
+| SaaS → SaaS configuration migration | `monaco_s2s_sua_migration` + Monaco CLI | 5-30 min | Export + Deploy with Monaco |
 | Migrate to new tenant | `monaco_migration` | 15-120 min | Full tenant copy |
 | Learn / Reference | `monaco_examples` | — | Examples & templates |
 

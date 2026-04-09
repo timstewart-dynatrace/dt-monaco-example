@@ -1,16 +1,18 @@
-# Managed-to-SaaS Export Guide (SaaS Upgrade Assistant)
+# SaaS Configuration Export Guide
 
-This guide explains how to use the `s2s-export.sh` script to export Dynatrace Managed environment configurations for migration to Dynatrace SaaS using the **SaaS Upgrade Assistant**.
+This guide explains how to use the `s2s-export.sh` script to export Dynatrace configurations from SaaS or Managed environments.
+
+**Primary Use Case:** SaaS-to-SaaS tenant configuration migration
+**Secondary Use Case:** Exporting Managed configurations for migration to SaaS using the SaaS Upgrade Assistant
 
 ## Purpose
 
-This tool enables **Dynatrace Managed cluster administrators** to:
-- Export complete environment configurations from Dynatrace Managed
-- Prepare configurations for import into SaaS environments
-- Load configurations into the **SaaS Upgrade Assistant** app for guided migration
-- Track migration progress and fix configuration issues within the Migration Assistant UI
+The `s2s-export.sh` script enables:
+- Exporting complete configuration from one Dynatrace SaaS tenant to another
+- Migrating configurations between SaaS environments
+- Exporting Dynatrace Managed configurations (secondary use case)
 
-For more details, see [Dynatrace SaaS Upgrade Assistant documentation](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant).
+**For Managed-to-SaaS users:** Exported Managed configurations can be imported into the **SaaS Upgrade Assistant** app for guided migration to SaaS. See [SaaS Upgrade Assistant documentation](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant) for detailed steps.
 
 ## Overview
 
@@ -18,9 +20,9 @@ The `s2s-export.sh` script automates the process of:
 1. Downloading the Monaco CLI tool
 2. Verifying its integrity via checksum
 3. Generating a temporary API token with read access scopes
-4. Downloading all configurations from your Dynatrace **Managed** environment
+4. Downloading all configurations from your Dynatrace source environment (SaaS or Managed)
 5. Creating a timestamped export package with metadata
-6. Archiving the export into a compressed tar.gz file (suitable for SaaS Upgrade Assistant import)
+6. Archiving the export into a compressed tar.gz file (ready for deployment to target SaaS environment or SaaS Upgrade Assistant)
 
 ## Prerequisites
 
@@ -88,22 +90,23 @@ sudo yum install curl jq
 
 ### Examples
 
-#### 1. Export from Dynatrace Managed
+#### 1. Export from SaaS tenant
 ```bash
-export ENV_TOKEN="dt0c01.xxxxxxxxxxxx.xxxxx"
-./scripts/s2s-export.sh abc12345 managed.example.com
+export ENV_TOKEN="dt0c01.source_tenant.xxxxx"
+./scripts/s2s-export.sh abc12345
 ```
 
-#### 2. Export with non-standard domain
-```bash
-export ENV_TOKEN="dt0c01.xxxxxxxxxxxx.xxxxx"
-./scripts/s2s-export.sh abc12345 dynatrace.internal.company.com
-```
-
-#### 3. With custom Python venv
+#### 2. With custom Python venv
 ```bash
 source .venv/bin/activate
-export ENV_TOKEN="dt0c01.xxxxxxxxxxxx.xxxxx"
+export ENV_TOKEN="dt0c01.source_tenant.xxxxx"
+./scripts/s2s-export.sh abc12345
+```
+
+#### 3. Managed environment (secondary use case)
+For exporting from Dynatrace Managed, specify the domain:
+```bash
+export ENV_TOKEN="dt0c01.managed_env.xxxxx"
 ./scripts/s2s-export.sh abc12345 managed.example.com
 ```
 

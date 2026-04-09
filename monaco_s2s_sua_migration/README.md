@@ -1,26 +1,34 @@
-# Managed-to-SaaS Export (SaaS Upgrade Assistant)
+# SaaS-to-SaaS Configuration Export
 
-Standalone directory for exporting Dynatrace Managed environment configurations for migration to SaaS using the **SaaS Upgrade Assistant**.
+Standalone directory for exporting and migrating Dynatrace SaaS tenant configurations to other SaaS environments.
 
 ## Purpose
 
-Export complete configuration from your Dynatrace Managed cluster to prepare for migration to Dynatrace SaaS. The exported archive is compatible with the SaaS Upgrade Assistant app for guided configuration migration and validation.
+Export complete configuration from one Dynatrace SaaS tenant to another for configuration migration or replication.
 
-**Learn more:** [Dynatrace SaaS Upgrade Assistant](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant)
+**Use Cases:**
+- Cross-tenant SaaS configuration migration
+- Configuration backup and replication
+- Configuration evaluation before deployment
+- Batch migration of multiple SaaS environments
 
 ## Quick Start
 
-1. **Set your API token** (from Dynatrace Managed environment):
+1. **Set your API token** (from source SaaS tenant):
    ```bash
    export ENV_TOKEN="dt0c01.xxxxxxxxxxxx.xxxxx"
    ```
 
 2. **Run the export:**
    ```bash
-   ./scripts/s2s-export.sh <environment-id> <managed-domain>
+   ./scripts/s2s-export.sh <tenant-id> [environment-url-base]
    ```
-   Example:
+   Examples:
    ```bash
+   # Export from SaaS (default)
+   ./scripts/s2s-export.sh abc12345
+   
+   # Export from Managed
    ./scripts/s2s-export.sh abc12345 managed.example.com
    ```
 
@@ -36,8 +44,8 @@ Export complete configuration from your Dynatrace Managed cluster to prepare for
 - jq
 - grep, awk
 - tar, date
-- Valid Dynatrace API token (from Managed environment) with proper scopes
-- Access to Dynatrace Managed environment
+- Valid Dynatrace API token (from source environment - SaaS or Managed) with proper scopes
+- Network access to source Dynatrace environment
 
 ## Support
 
@@ -52,23 +60,23 @@ See [docs/S2S_EXPORT.md](docs/S2S_EXPORT.md) for:
 
 ## Workflow
 
-1. **Export** - Run this script to export from Managed
-2. **Upload** - Import the archive into SaaS Upgrade Assistant
-3. **Fix** - Use Migration Assistant to resolve any configuration issues
-4. **Deploy** - Deploy configurations to your SaaS environment
+1. **Export** - Run script to export from source SaaS tenant
+2. **Extract** - Unpack the configuration archive
+3. **Deploy** - Use Monaco CLI to deploy to target SaaS tenant
 
 ## Examples
 
-### Export from Dynatrace Managed
+### Export from SaaS tenant
 ```bash
-export ENV_TOKEN="dt0c01.xxxxxxxxxxxx.xxxxx"
-./scripts/s2s-export.sh abc12345 managed.company.com
+export ENV_TOKEN="dt0c01.source_tenant_token.xxxxx"
+./scripts/s2s-export.sh abc12345
+# Output: configurationExport-2024-02-15_14-30-45.tar.gz
 ```
 
-### Export with custom domain
+### Deploy to target SaaS tenant
 ```bash
-export ENV_TOKEN="dt0c01.xxxxxxxxxxxx.xxxxx"
-./scripts/s2s-export.sh abc12345 dynatrace.internal.company.com
+tar -xzf configurationExport-*.tar.gz
+monaco deploy -e target-env -d export/
 ```
 
 ## Output
@@ -76,18 +84,10 @@ export ENV_TOKEN="dt0c01.xxxxxxxxxxxx.xxxxx"
 Creates a timestamped `.tar.gz` archive containing:
 - `exportMetadata.json` - Export metadata (versions, timestamps, tenant info)
 - `export/` - All configuration files organized by type
-- Ready for import into SaaS Upgrade Assistant
+- Ready for deployment to target SaaS tenant or SaaS Upgrade Assistant
 
 ## Resources
 
-**Export & Setup:**
-- [SaaS Upgrade Assistant Guide](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant)
-
-**Configuration Updates:**
-- [Update Configuration in SaaS Upgrade Assistant](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant/sua-update-config) - Edit mode and configuration fixes
-- [Update via Editable Properties](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant/sua-update-editable-properties) - Single and bulk edit modes
-- [Update Dashboard Owners](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant/sua-update-dashboard-owners) - Automatic dashboard owner updates
-
-**Advanced:**
-- [Manage Dependencies](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant/sua-dependencies) - Understanding and breaking configuration dependencies
-- [Collaborate on Upgrades](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant/sua-collaborate) - Team collaboration using Upgrade IDs
+- [Monaco CLI Documentation](https://github.com/Dynatrace/dynatrace-configuration-as-code)
+- [Dynatrace Configuration API](https://www.dynatrace.com/support/help/dynatrace-api)
+- [API Token Management](https://www.dynatrace.com/support/help/how-to-use-dynatrace/user-management-and-security/access-management/api-tokens)
