@@ -1,0 +1,29 @@
+# Monaco binary (different OS architectures)
+monaco
+monaco-*
+monaco_checksum
+
+# Configuration downloads and backups
+*/
+!scripts/
+!docs/
+
+# Manifest files
+manifest.yaml
+
+# Metadata files
+exportMetadata.json
+
+# Archives
+*.tar.gz
+*.tar
+*.zip
+
+# macOS
+.DS_Store
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo

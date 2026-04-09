@@ -1,0 +1,34 @@
+# Environment configuration (contains real tokens - use .env.example template)
+.env
+
+# Downloaded configurations and backups
+config/source/
+config/backups/
+
+# Python environment
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Migration logs
+migration_*.log
+
+# IDE/Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS files
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.old

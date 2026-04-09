@@ -7,14 +7,17 @@
 .vscode/settings.json
 secrets.yaml
 
-# Configuration backups
-config/backups/
-config/source/
-config/target/
-config/cloned-*/
+# Configuration backups (only in monaco_examples/ and root config)
+monaco_examples/config/backups/
+monaco_examples/config/source/
+monaco_examples/config/target/
+monaco_examples/config/cloned-*/
 
-# Cloned configurations
-cloned-*/
+# Cloned configurations (in monaco_examples/ only)
+monaco_examples/cloned-*/
+
+# Development workspace (ignore entire directory)
+_workspace_dev/
 
 # Python
 __pycache__/
@@ -24,6 +27,7 @@ __pycache__/
 .Python
 env/
 venv/
+.venv/
 ENV/
 build/
 develop-eggs/
@@ -50,15 +54,20 @@ wheels/
 .DS_Store
 
 # Logs
-*.log
 logs/
-migration_*.log
+monaco_examples/**/*.log
+_workspace_dev/**/*.log
+monaco_migration/*.log
+monaco_s2s_sua_migration/*.log
 
 # Temporary files
 tmp/
-temp/
 *.tmp
 
 # OS
 .DS_Store
 Thumbs.db
+
+# Standalone packages (monaco_migration/ and monaco_s2s_sua_migration/) have their own .gitignore
+# Development workspace (_workspace_dev/) and examples (monaco_examples/) tracked separately
+# Example directory (monaco_examples/) excludes runtime configs to keep repo clean

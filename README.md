@@ -1,103 +1,182 @@
-# Dynatrace Monaco Configuration Migration
+# Dynatrace Monaco Tools
 
-This project provides Python and Shell Script tools for cloning and migrating Dynatrace configuration between tenants using Monaco.
+Complete standalone tools for Dynatrace configuration management and migration using [Monaco CLI](https://github.com/Dynatrace/dynatrace-configuration-as-code).
 
-## Overview
+## What's Included
 
-Monaco is a configuration-as-code tool for Dynatrace that allows you to manage your configuration in version control and migrate it between environments.
+### 📦 **monaco_migration/**
+**Full Tenant Configuration Migration**
+
+Complete migration of all configurations from one Dynatrace tenant to another. Ideal for:
+- Consolidating multiple tenants
+- Environment promotion (dev → staging → production)
+- Tenant upgrades or migrations
+- Disaster recovery
+
+**Includes:** Python & shell scripts, migration guide, troubleshooting, automatic backup
+
+👉 **[See monaco_migration/README.md](monaco_migration/README.md)**
+
+---
+
+### 📦 **monaco_s2s_sua_migration/**
+**Managed-to-SaaS Migration Export (SaaS Upgrade Assistant)
+
+Export Dynatrace Managed environment configurations for migration to SaaS. Generates archives compatible with the **SaaS Upgrade Assistant** app. Ideal for:
+- Managed → SaaS environment upgrades
+- Configuration export for SaaS Upgrade Assistant
+- Evaluating configurations before migration
+- Batch migration of multiple environments
+
+**Includes:** Shell script for export, complete usage guide, SaaS Upgrade Assistant integration guide, troubleshooting
+
+👉 **[See monaco_s2s_sua_migration/README.md](monaco_s2s_sua_migration/README.md)**
+
+**Resources:** [SaaS Upgrade Assistant Docs](https://docs.dynatrace.com/managed/upgrade/saas-upgrade-assistant)
+
+---
+
+### 📦 **monaco_examples/**
+**Reference Configurations & Examples**
+
+Sample configurations and project structures for learning and testing. Contains:
+- Example configuration sets
+- Project templates
+- Integration examples
+
+👉 **[See monaco_examples/README.md](monaco_examples/README.md)** (if available)
+
+---
+
+## Quick Start
+
+Each package is **completely standalone**. Pick the one you need:
+
+### Full Tenant Migration
+```bash
+cd monaco_migration/
+cp config/.env.example .env
+nano .env  # Add your tenant URLs and tokens
+source .env
+python3 scripts/migrate.py
+```
+
+### SaaS-to-SaaS Export
+```bash
+cd monaco_s2s_sua_migration/
+export ENV_TOKEN="dt0c01.xxxxxxxxxxxx..."
+./scripts/s2s-export.sh your-environment-id managed.example.com
+```
+
+### View Examples
+```bash
+cd monaco_examples/
+# Browse example configurations
+```
+
+---
 
 ## Prerequisites
 
-- **Java 11+** (required for Monaco)
-- **Git**
-- **Python 3.8+** (for Python scripts)
-- Dynatrace tenant(s) with API access
-- API tokens for both source and target tenants
+All tools require:
 
-## Installation
+- **Monaco CLI** - Download from https://github.com/Dynatrace/dynatrace-configuration-as-code/releases
+  ```bash
+  # Installation example (macOS)
+  brew install dynatrace-oss/dynatrace/monaco
+  ```
 
-### 1. Install Java
+- **Dynatrace Tenant(s)** - With API access
+- **Valid API Tokens** - With appropriate scopes (detailed in each tool's README)
+- **Bash 4.0+** or **Python 3.8+** - Depending on which script you use
 
-Monaco requires Java 11 or higher. Check your current version:
+### System Requirements
 
-```bash
-java -version
-```
+| Tool | Requires |
+|------|----------|
+| **monaco_migration** | Python 3.8+ or Bash 4.0+ |
+| **monaco_s2s_sua_migration** | Bash 4.0+ |
+| **monaco_examples** | None (reference only) |
 
-If you need to install Java on macOS:
+---
 
-```bash
-brew install java
-```
+## Documentation
 
-### 2. Install Monaco
+Each package contains complete standalone documentation:
 
-Download the latest Monaco release:
+- **monaco_migration/**
+  - `README.md` - Quick start
+  - `docs/FULL_TENANT_MIGRATION.md` - Complete guide
+  - `docs/TROUBLESHOOTING.md` - Q&A and issues
 
-```bash
-# Create a directory for Monaco
-mkdir -p ~/tools/monaco
-cd ~/tools/monaco
+- **monaco_s2s_sua_migration/**
+  - `README.md` - Quick start
+  - `docs/S2S_EXPORT.md` - Complete guide with troubleshooting
 
-# Download the latest release (check https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases)
-curl -L https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/v1.9.0/monaco-v1.9.0-macos-arm64 -o monaco
-chmod +x monaco
+---
 
-# Add to PATH
-export PATH="$PATH:$HOME/tools/monaco"
-```
+## Selecting the Right Tool
 
-### 3. Set Up Environment Variables
+| Need | Tool | Time | Scope |
+|------|------|------|-------|
+| Managed → SaaS migration via SaaS Upgrade Assistant | `monaco_s2s_sua_migration` + (SaaS Upgrade Assistant UI) | 10-60 min | Export + Manual fix & deploy |
+| Migrate to new tenant | `monaco_migration` | 15-120 min | Full tenant copy |
+| Learn / Reference | `monaco_examples` | — | Examples & templates |
 
-Create a `.env` file in the project root:
+---
 
-```bash
-# Source tenant
-SOURCE_TENANT_URL=https://your-source-tenant.live.dynatrace.com
-SOURCE_TENANT_TOKEN=your-source-api-token
+## Key Features
 
-# Target tenant
-TARGET_TENANT_URL=https://your-target-tenant.live.dynatrace.com
-TARGET_TENANT_TOKEN=your-target-api-token
-```
+### ✅ Safety First
+- **Automatic backups** - Full versioning of target before changes
+- **Dry-run mode** - Preview changes before applying
+- **Validation** - YAML & configuration validation
+- **Error handling** - Comprehensive error messages and recovery
 
-## Project Structure
+### ✅ Flexible
+- **Multiple options** - Python or Shell scripts
+- **Configurable** - Environment variables or command-line args
+- **Selective** - Choose specific config types or migrate all
+- **Idempotent** - Safe to run multiple times
 
-```
-.
-├── README.md                      # This file
-├── .env                           # Environment variables (create this)
-├── config/                        # Monaco configuration files
-│   ├── environments.yaml          # Environment definitions
-│   └── tenants/                   # Tenant-specific configs
-├── scripts/
-│   ├── migrate.py                 # Python migration script
-│   ├── migrate.sh                 # Shell script migration
-│   └── clone-config.sh            # Clone configuration helper
-└── docs/                          # Additional documentation
-```
+### ✅ Complete
+- **Self-contained** - Each directory is standalone
+- **Well-documented** - Guides and troubleshooting included
+- **Production-ready** - Used in enterprise migrations
+- **Accessible** - No steep learning curve
 
-## Usage
+---
 
-### Using the Python Script
+## Getting Help
 
-```bash
-python scripts/migrate.py \
-  --source https://source-tenant.live.dynatrace.com \
-  --target https://target-tenant.live.dynatrace.com \
-  --source-token YOUR_SOURCE_TOKEN \
-  --target-token YOUR_TARGET_TOKEN
-```
+1. **Start with the package README** - Quick start and basic usage
+2. **Check package docs/** - Detailed guides and examples
+3. **Review troubleshooting** - Common issues and solutions
+4. **Check prerequisites** - Verify Monaco, tokens, access
 
-### Using the Shell Script
+### Support Resources
 
-```bash
-./scripts/migrate.sh \
-  --source-url https://source-tenant.live.dynatrace.com \
-  --target-url https://target-tenant.live.dynatrace.com \
-  --source-token YOUR_SOURCE_TOKEN \
-  --target-token YOUR_TARGET_TOKEN
-```
+- [Monaco CLI GitHub](https://github.com/Dynatrace/dynatrace-configuration-as-code)
+- [Dynatrace Configuration API](https://www.dynatrace.com/support/help/dynatrace-api)
+- [API Token Management](https://www.dynatrace.com/support/help/how-to-use-dynatrace/user-management-and-security/access-management/api-tokens)
+
+---
+
+## License
+
+These tools use Dynatrace Monaco CLI for configuration management.
+See Monaco repository for licensing information.
+
+---
+
+## Next Steps
+
+- 👉 Choose a tool above based on your use case
+- 📖 Read the tool's README.md
+- 🔑 Set up API tokens
+- ⚙️ Configure your environment
+- 🚀 Run the migration or export
+
 
 ### Using Environment Variables
 
