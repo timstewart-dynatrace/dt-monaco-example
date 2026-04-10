@@ -6,6 +6,7 @@ monaco_checksum
 # Configuration downloads and backups
 */
 !scripts/
+!scripts/*/
 !docs/
 
 # Manifest files
