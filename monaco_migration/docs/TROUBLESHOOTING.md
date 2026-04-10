@@ -181,7 +181,7 @@ nano .env
 source .env
 
 # Retry migration
-python3 scripts/migrate.py
+python3 scripts/python/migrate.py
 ```
 
 ## Network & Connectivity Issues
@@ -260,9 +260,9 @@ Connection timed out
 
 2. **Run in background:**
    ```bash
-   nohup python3 scripts/migrate.py &
+   nohup python3 scripts/python/migrate.py &
    # or
-   nohup ./scripts/migrate.sh &
+   nohup ./scripts/bash/migrate.sh &
    
    # Check progress
    tail -f migration_*.log
@@ -277,7 +277,7 @@ Connection timed out
 4. **Retry (migrations are idempotent):**
    ```bash
    # Safe to re-run - will resume or restart
-   python3 scripts/migrate.py
+   python3 scripts/python/migrate.py
    ```
 
 ## Configuration Issues
@@ -338,7 +338,7 @@ python3 -c "import yaml; yaml.safe_load(open('file'))" 2>&1
 # Usually matches Monaco YAML requirements
 
 # Retry migration
-python3 scripts/migrate.py
+python3 scripts/python/migrate.py
 ```
 
 ### No Configuration Found
@@ -376,9 +376,9 @@ curl -H "Authorization: Api-Token $SOURCE_TENANT_TOKEN" \
 
 3. **Enable debug logging:**
    ```bash
-   python3 scripts/migrate.py --dry-run
+   python3 scripts/python/migrate.py --dry-run
    # or
-   bash -x ./scripts/migrate.sh --dry-run
+   bash -x ./scripts/bash/migrate.sh --dry-run
    ```
 
 4. **Manually test Monaco download:**
@@ -414,7 +414,7 @@ tail -50 migration_*.log | grep -i error
    ```bash
    # Could be compatibility issue
    # Review dry-run output for conflicts
-   python3 scripts/migrate.py --dry-run
+   python3 scripts/python/migrate.py --dry-run
    ```
 
 2. **Target dependencies not met:**
@@ -433,7 +433,7 @@ tail -50 migration_*.log | grep -i error
    ```bash
    # Wait 5 minutes then retry
    sleep 300
-   python3 scripts/migrate.py
+   python3 scripts/python/migrate.py
    ```
 
 ### Backup Failed
@@ -457,8 +457,8 @@ Error: Failed to create backup of target configuration
 3. **Skip backup with flag:**
    ```bash
    # If backup fails but you don't need it
-   ./scripts/migrate.sh --no-backup
-   python3 scripts/migrate.py
+   ./scripts/bash/migrate.sh --no-backup
+   python3 scripts/python/migrate.py
    ```
 
 ## Performance Issues
@@ -503,7 +503,7 @@ ping source-tenant-id.live.dynatrace.com
    - Don't interrupt (no resume available)
    - Use `nohup` to keep running if disconnected
    ```bash
-   nohup ./scripts/migrate.sh &
+   nohup ./scripts/bash/migrate.sh &
    ```
 
 ### High Memory Usage
@@ -615,9 +615,9 @@ Settings > Configuration Management shows 0 items
 3. **Verify no silent failures:**
    ```bash
    # Run again in debug mode
-   bash -x ./scripts/migrate.sh
+   bash -x ./scripts/bash/migrate.sh
    # or
-   python3 scripts/migrate.py --dry-run
+   python3 scripts/python/migrate.py --dry-run
    ```
 
 ### Configuration Count Mismatch
@@ -687,10 +687,10 @@ Target shows only 450 after migration
 2. **Enable debug mode:**
    ```bash
    # Shell script
-   bash -x ./scripts/migrate.sh 2>&1 | tee debug.log
+   bash -x ./scripts/bash/migrate.sh 2>&1 | tee debug.log
    
    # Python script
-   python3 -u scripts/migrate.py 2>&1 | tee debug.log
+   python3 -u scripts/python/migrate.py 2>&1 | tee debug.log
    ```
 
 3. **Check resources:**

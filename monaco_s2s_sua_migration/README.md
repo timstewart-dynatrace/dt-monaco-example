@@ -15,36 +15,74 @@ Export complete configuration from one Dynatrace SaaS tenant to another for conf
 ## Quick Start
 
 1. **Set your API token** (from source SaaS tenant):
+
+   **Bash/macOS/Linux:**
    ```bash
    export ENV_TOKEN="dt0c01.xxxxxxxxxxxx.xxxxx"
    ```
 
-2. **Run the export:**
-   ```bash
-   ./scripts/s2s-export.sh <tenant-id> [environment-url-base]
+   **PowerShell/Windows:**
+   ```powershell
+   $env:ENV_TOKEN = "dt0c01.xxxxxxxxxxxx.xxxxx"
    ```
+
+2. **Run the export:**
+
+   **Bash:**
+   ```bash
+   ./scripts/bash/s2s-export.sh <tenant-id> [environment-url-base]
+   ```
+
+   **Python:**
+   ```bash
+   pip install -r requirements.txt
+   python3 scripts/python/s2s-export.py <tenant-id> [--env-url-base live.dynatrace.com]
+   ```
+
+   **PowerShell (Windows):**
+   ```powershell
+   .\scripts\powershell\s2s-export.ps1 -TenantId <tenant-id> [-EnvUrlBase live.dynatrace.com]
+   ```
+
    Examples:
    ```bash
-   # Export from SaaS (default)
-   ./scripts/s2s-export.sh abc12345
-   
-   # Export from Managed
-   ./scripts/s2s-export.sh abc12345 managed.example.com
+   # Bash - Export from SaaS (default)
+   ./scripts/bash/s2s-export.sh abc12345
+
+   # Python - Export from SaaS
+   python3 scripts/python/s2s-export.py abc12345
+
+   # PowerShell - Export from SaaS
+   .\scripts\powershell\s2s-export.ps1 -TenantId abc12345
    ```
 
 ## Files
 
-- **scripts/s2s-export.sh** - Main export script
+```
+scripts/
+├── bash/
+│   └── s2s-export.sh          # Bash export script (macOS/Linux)
+├── python/
+│   └── s2s-export.py          # Python export script (cross-platform)
+└── powershell/
+    └── s2s-export.ps1         # PowerShell export script (Windows)
+```
+
 - **docs/S2S_EXPORT.md** - Complete usage guide, troubleshooting, and SaaS Upgrade Assistant integration
+- **requirements.txt** - Python dependencies (for Python script)
 
 ## Requirements
 
-- bash 4.0+
-- curl
-- jq
-- grep, awk
-- tar, date
-- Valid Dynatrace API token (from source environment - SaaS or Managed) with proper scopes
+Choose the script for your platform:
+
+| Script | Requirements |
+|--------|-------------|
+| **Bash** | Bash 4.0+, curl, jq, grep, awk, tar |
+| **Python** | Python 3.8+, requests library |
+| **PowerShell** | Windows PowerShell 5.1+ (ships with Windows 10/11) |
+
+All scripts require:
+- Valid Dynatrace API token with proper scopes
 - Network access to source Dynatrace environment
 
 ## Support
@@ -67,10 +105,26 @@ See [docs/S2S_EXPORT.md](docs/S2S_EXPORT.md) for:
 ## Examples
 
 ### Export from SaaS tenant
+
+**Bash:**
 ```bash
 export ENV_TOKEN="dt0c01.source_tenant_token.xxxxx"
-./scripts/s2s-export.sh abc12345
+./scripts/bash/s2s-export.sh abc12345
 # Output: configurationExport-2024-02-15_14-30-45.tar.gz
+```
+
+**Python:**
+```bash
+export ENV_TOKEN="dt0c01.source_tenant_token.xxxxx"
+python3 scripts/python/s2s-export.py abc12345
+# Output: configurationExport-2024-02-15_14-30-45.tar.gz
+```
+
+**PowerShell:**
+```powershell
+$env:ENV_TOKEN = "dt0c01.source_tenant_token.xxxxx"
+.\scripts\powershell\s2s-export.ps1 -TenantId abc12345
+# Output: configurationExport-2024-02-15_14-30-45.zip
 ```
 
 ### Deploy to target SaaS tenant

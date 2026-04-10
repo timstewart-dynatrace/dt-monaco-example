@@ -1,0 +1,39 @@
+{
+  "projectName": "Dynatrace Monaco Tools",
+  "projectType": "python",
+  "version": "0.1.0",
+  "description": "Standalone tools for Dynatrace configuration management and migration using Monaco CLI",
+
+  "repository": {
+    "owner": "timstewart-dynatrace",
+    "name": "dt-monaco-example",
+    "url": "https://github.com/timstewart-dynatrace/dt-monaco-example"
+  },
+
+  "standards": {
+    "semanticVersioning": true,
+    "branchingStrategy": "feature/fix",
+    "requiresDocumentation": true,
+    "requiresTests": true,
+    "requiresChangeLog": true
+  },
+
+  "minimumCodeQuality": {
+    "typeHints": true,
+    "docstrings": true,
+    "linting": "ruff",
+    "formatter": "ruff format",
+    "typeChecker": "mypy",
+    "testing": "pytest",
+    "coverage": 80
+  },
+
+  "pythonEnvironment": {
+    "version": "3.8+",
+    "packageManager": "pip",
+    "virtualEnv": "venv",
+    "requirementsFile": "requirements.txt"
+  },
+
+  "customInstructions": "When a task is complete, perform the 'Reflection Protocol': 1. Update MEMORY.md with non-obvious quirks. 2. Log design decisions to DECISIONS.md. 3. Update active phase file with next step. 4. Do automatically before summarizing."
+}

@@ -16,14 +16,21 @@ Complete standalone package for migrating all Dynatrace configurations from a so
    source .env
    ```
 
-3. **Run the migration (Python):**
+3. **Run the migration:**
+
+   **Python:**
    ```bash
-   python3 scripts/migrate.py
+   python3 scripts/python/migrate.py
    ```
 
-   Or run the migration (Shell):
+   **Bash:**
    ```bash
-   ./scripts/migrate.sh
+   ./scripts/bash/migrate.sh
+   ```
+
+   **PowerShell (Windows):**
+   ```powershell
+   .\scripts\powershell\migrate.ps1
    ```
 
 ## What Gets Migrated
@@ -49,7 +56,7 @@ All configurations are migrated exactly as they exist in the source tenant.
 ## Prerequisites
 
 - **Monaco CLI** - Download from https://github.com/Dynatrace/dynatrace-configuration-as-code/releases
-- **Python 3.8+** (for Python script) or **Bash 4.0+** (for Shell script)
+- **Python 3.8+** (for Python script) or **Bash 4.0+** (for Shell script) or **Windows PowerShell 5.1+** (for PowerShell script)
 - **curl** - For API connectivity verification
 - **jq** - For JSON processing (optional)
 - **Valid Dynatrace API tokens** with proper scopes
@@ -72,8 +79,8 @@ Your API tokens need these minimum scopes:
 
 ### 1. Install Monaco CLI
 
+**macOS:**
 ```bash
-# macOS
 brew install dynatrace-oss/dynatrace/monaco
 
 # Or manually download
@@ -81,9 +88,19 @@ mkdir -p ~/tools/monaco
 cd ~/tools/monaco
 curl -L https://github.com/Dynatrace/dynatrace-configuration-as-code/releases/download/v2.12.0/monaco-darwin-arm64 -o monaco
 chmod +x monaco
-
-# Add to PATH
 export PATH="$PATH:$HOME/tools/monaco"
+```
+
+**Linux:**
+```bash
+curl -L https://github.com/Dynatrace/dynatrace-configuration-as-code/releases/latest/download/monaco-linux-amd64 -o monaco
+chmod +x monaco
+sudo mv monaco /usr/local/bin/
+```
+
+**Windows (PowerShell):**
+```powershell
+Invoke-WebRequest -URI https://github.com/Dynatrace/dynatrace-configuration-as-code/releases/latest/download/monaco-windows-amd64.exe -OutFile monaco.exe
 ```
 
 ### 2. Install Python Dependencies (if using Python script)
@@ -109,39 +126,39 @@ nano .env
 **Basic migration:**
 ```bash
 source .env
-python3 scripts/migrate.py
+python3 scripts/python/migrate.py
 ```
 
 **Dry run (preview changes):**
 ```bash
-python3 scripts/migrate.py --dry-run
+python3 scripts/python/migrate.py --dry-run
 ```
 
 **With command-line arguments:**
 ```bash
-python3 scripts/migrate.py \
+python3 scripts/python/migrate.py \
   --source https://source.live.dynatrace.com \
   --target https://target.live.dynatrace.com \
   --source-token YOUR_TOKEN \
   --target-token YOUR_TOKEN
 ```
 
-### Shell Script
+### Bash Script
 
 **Basic migration:**
 ```bash
 source .env
-./scripts/migrate.sh
+./scripts/bash/migrate.sh
 ```
 
 **Dry run (preview changes):**
 ```bash
-./scripts/migrate.sh --dry-run
+./scripts/bash/migrate.sh --dry-run
 ```
 
 **With command-line arguments:**
 ```bash
-./scripts/migrate.sh \
+./scripts/bash/migrate.sh \
   --source-url https://source.live.dynatrace.com \
   --target-url https://target.live.dynatrace.com \
   --source-token YOUR_TOKEN \
@@ -150,7 +167,38 @@ source .env
 
 **Skip backup:**
 ```bash
-./scripts/migrate.sh --no-backup
+./scripts/bash/migrate.sh --no-backup
+```
+
+### PowerShell Script (Windows)
+
+**Basic migration:**
+```powershell
+# Load .env manually or set environment variables
+$env:SOURCE_TENANT_URL = "https://source.live.dynatrace.com"
+$env:SOURCE_TENANT_TOKEN = "your_token"
+$env:TARGET_TENANT_URL = "https://target.live.dynatrace.com"
+$env:TARGET_TENANT_TOKEN = "your_token"
+.\scripts\powershell\migrate.ps1
+```
+
+**Dry run (preview changes):**
+```powershell
+.\scripts\powershell\migrate.ps1 -DryRun
+```
+
+**With parameters:**
+```powershell
+.\scripts\powershell\migrate.ps1 `
+  -SourceUrl "https://source.live.dynatrace.com" `
+  -TargetUrl "https://target.live.dynatrace.com" `
+  -SourceToken "YOUR_TOKEN" `
+  -TargetToken "YOUR_TOKEN"
+```
+
+**Skip backup:**
+```powershell
+.\scripts\powershell\migrate.ps1 -NoBackup
 ```
 
 ## Migration Process
@@ -207,10 +255,13 @@ Always preview changes before running live migration:
 
 ```bash
 # Python
-python3 scripts/migrate.py --dry-run
+python3 scripts/python/migrate.py --dry-run
 
-# Shell
-./scripts/migrate.sh --dry-run
+# Bash
+./scripts/bash/migrate.sh --dry-run
+
+# PowerShell
+.\scripts\powershell\migrate.ps1 -DryRun
 ```
 
 This will:
@@ -301,11 +352,14 @@ ping your-tenant.live.dynatrace.com
 ### Configuration Validation Error
 
 ```bash
-# Enable debug logging
-python3 scripts/migrate.py --dry-run
+# Enable debug logging (Python)
+python3 scripts/python/migrate.py --dry-run
 
-# Or with shell
-bash -x ./scripts/migrate.sh --dry-run
+# Or with Bash
+bash -x ./scripts/bash/migrate.sh --dry-run
+
+# Or with PowerShell
+.\scripts\powershell\migrate.ps1 -DryRun -Verbose
 ```
 
 ### Empty Migration
