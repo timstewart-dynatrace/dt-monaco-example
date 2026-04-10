@@ -66,19 +66,19 @@ sudo yum install curl jq
 
 2. **Make the script executable:**
    ```bash
-   chmod +x s2s-export.sh
+   chmod +x scripts/bash/s2s-export.sh
    ```
 
 3. **Navigate to the script directory:**
    ```bash
-   cd /path/to/s2s-export
+   cd monaco_s2s_sua_migration/
    ```
 
 ## Usage
 
 ### Basic Syntax
 ```bash
-./scripts/s2s-export.sh <environment-id> <environment-url-base>
+./scripts/bash/s2s-export.sh <environment-id> <environment-url-base>
 ```
 
 ### Parameters
@@ -86,28 +86,28 @@ sudo yum install curl jq
 | Parameter | Required | Description | Example |
 |-----------|----------|-------------|----------|
 | `environment-id` | Yes | Your Dynatrace environment ID (from Managed console) | `abc12345` |
-| `environment-url-base` | Yes | Your Dynatrace Managed domain/hostname | `managed.example.com` or `dynatrace.mycompany.com` |
+| `environment-url-base` | No | Base URL (default: `live.dynatrace.com`) | `managed.example.com` or `dynatrace.mycompany.com` |
 
 ### Examples
 
 #### 1. Export from SaaS tenant
 ```bash
 export ENV_TOKEN="dt0c01.source_tenant.xxxxx"
-./scripts/s2s-export.sh abc12345
+./scripts/bash/s2s-export.sh abc12345
 ```
 
 #### 2. With custom Python venv
 ```bash
 source .venv/bin/activate
 export ENV_TOKEN="dt0c01.source_tenant.xxxxx"
-./scripts/s2s-export.sh abc12345
+./scripts/bash/s2s-export.sh abc12345
 ```
 
 #### 3. Managed environment (secondary use case)
 For exporting from Dynatrace Managed, specify the domain:
 ```bash
 export ENV_TOKEN="dt0c01.managed_env.xxxxx"
-./scripts/s2s-export.sh abc12345 managed.example.com
+./scripts/bash/s2s-export.sh abc12345 managed.example.com
 ```
 
 ## Output Structure
@@ -441,7 +441,7 @@ ls -la {tenantId}/
 
 3. **Review Monaco output**
    - Check for errors in console output
-   - Enable debug: `bash -x ./scripts/s2s-export.sh abc12345`
+   - Enable debug: `bash -x ./scripts/bash/s2s-export.sh abc12345`
 
 #### "Error: YAML parsing error" (if manually editing files)
 ```
@@ -473,7 +473,7 @@ rm -f monaco monaco_checksum manifest.yaml
 rm -rf {tenantId}/
 
 # Re-run the script
-./scripts/s2s-export.sh abc12345
+./scripts/bash/s2s-export.sh abc12345
 ```
 
 ### API & Authorization
@@ -520,7 +520,7 @@ curl -X POST "https://abc12345.live.dynatrace.com/api/v2/apiTokens" \
 #### Enable verbose logging
 ```bash
 # Run with bash debug output
-bash -x ./scripts/s2s-export.sh abc12345
+bash -x ./scripts/bash/s2s-export.sh abc12345
 
 # Keep temporary files for inspection
 # Comment out cleanup section in script before running
@@ -574,7 +574,7 @@ ls -la exportMetadata.json      # Export metadata
 ### Debugging
 ```bash
 # Run with verbose output
-bash -x ./scripts/s2s-export.sh abc12345
+bash -x ./scripts/bash/s2s-export.sh abc12345
 
 # Keep temporary files for inspection
 # Comment out cleanup lines before running
@@ -637,6 +637,6 @@ After export:
 
 For issues or questions:
 1. Review the troubleshooting section above
-2. Review script comments in `scripts/s2s-export.sh`
+2. Review script comments in `scripts/bash/s2s-export.sh`
 3. Check Monaco CLI logs in the generated directory
 4. Verify API token permissions in Dynatrace UI

@@ -42,7 +42,7 @@ Sample configurations and project structures for learning and testing. Contains:
 - Project templates
 - Integration examples
 
-👉 **[See monaco_examples/README.md](monaco_examples/README.md)** (if available)
+👉 **[See monaco_examples/README.md](monaco_examples/README.md)**
 
 ---
 
@@ -51,25 +51,56 @@ Sample configurations and project structures for learning and testing. Contains:
 Each package is **completely standalone**. Pick the one you need:
 
 ### Full Tenant Migration
+
+**Python (macOS/Linux/Windows):**
 ```bash
 cd monaco_migration/
 cp config/.env.example .env
 nano .env  # Add your tenant URLs and tokens
 source .env
-python3 scripts/migrate.py
+python3 scripts/python/migrate.py
+```
+
+**Bash (macOS/Linux):**
+```bash
+cd monaco_migration/
+source .env
+./scripts/bash/migrate.sh
+```
+
+**PowerShell (Windows):**
+```powershell
+cd monaco_migration\
+.\scripts\powershell\migrate.ps1 -SourceUrl "https://source.live.dynatrace.com" -TargetUrl "https://target.live.dynatrace.com" -SourceToken "TOKEN" -TargetToken "TOKEN"
 ```
 
 ### SaaS-to-SaaS Export
+
+**Bash:**
 ```bash
 cd monaco_s2s_sua_migration/
 export ENV_TOKEN="dt0c01.source_tenant.xxxxxxxxxxxx..."
-./scripts/s2s-export.sh abc12345
+./scripts/bash/s2s-export.sh abc12345
+```
+
+**Python:**
+```bash
+cd monaco_s2s_sua_migration/
+export ENV_TOKEN="dt0c01.source_tenant.xxxxxxxxxxxx..."
+python3 scripts/python/s2s-export.py abc12345
+```
+
+**PowerShell (Windows):**
+```powershell
+cd monaco_s2s_sua_migration\
+$env:ENV_TOKEN = "dt0c01.source_tenant.xxxxxxxxxxxx..."
+.\scripts\powershell\s2s-export.ps1 -TenantId abc12345
 ```
 
 ### View Examples
 ```bash
 cd monaco_examples/
-# Browse example configurations
+# Browse example configurations in scripts/bash/, scripts/python/, scripts/powershell/
 ```
 
 ---
@@ -86,14 +117,14 @@ All tools require:
 
 - **Dynatrace Tenant(s)** - With API access
 - **Valid API Tokens** - With appropriate scopes (detailed in each tool's README)
-- **Bash 4.0+** or **Python 3.8+** - Depending on which script you use
+- **Bash 4.0+**, **Python 3.8+**, or **Windows PowerShell 5.1+** - Depending on which script you use
 
 ### System Requirements
 
 | Tool | Requires |
 |------|----------|
-| **monaco_migration** | Python 3.8+ or Bash 4.0+ |
-| **monaco_s2s_sua_migration** | Bash 4.0+ |
+| **monaco_migration** | Python 3.8+, Bash 4.0+, or PowerShell 5.1+ |
+| **monaco_s2s_sua_migration** | Python 3.8+, Bash 4.0+, or PowerShell 5.1+ |
 | **monaco_examples** | None (reference only) |
 
 ---
@@ -180,7 +211,7 @@ See Monaco repository for licensing information.
 
 ```bash
 source .env
-python scripts/migrate.py
+python scripts/python/migrate.py
 ```
 
 ## Configuration Files

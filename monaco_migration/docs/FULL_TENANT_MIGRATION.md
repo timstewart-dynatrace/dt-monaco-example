@@ -96,7 +96,7 @@ apiTokens.read                   # Read token info
 
 ```bash
 # Clone or download the migration package
-cd migration/
+cd monaco_migration/
 
 # Create .env file with your credentials
 cp config/.env.example .env
@@ -135,10 +135,10 @@ curl -H "Authorization: Api-Token $SOURCE_TENANT_TOKEN" \
 
 ```bash
 # Python
-python3 scripts/migrate.py --dry-run
+python3 scripts/python/migrate.py --dry-run
 
 # Or Shell
-./scripts/migrate.sh --dry-run
+./scripts/bash/migrate.sh --dry-run
 ```
 
 Dry run performs all steps except actual deployment:
@@ -160,10 +160,10 @@ Once dry run completes successfully, run the actual migration:
 
 ```bash
 # Python script
-python3 scripts/migrate.py
+python3 scripts/python/migrate.py
 
 # Or Shell script
-./scripts/migrate.sh
+./scripts/bash/migrate.sh
 ```
 
 **Migration process runs in sequence:**
@@ -313,14 +313,14 @@ du -sh config/source/
 
 # Large tenants need more time (up to 1 hour)
 # Run migration in background with nohup
-nohup ./scripts/migrate.sh &
+nohup ./scripts/bash/migrate.sh &
 
 # Monitor progress
 tail -f migration_*.log
 
 # Kill and restart if needed
 # Rerun migration (safe - idempotent)
-./scripts/migrate.sh
+./scripts/bash/migrate.sh
 ```
 
 ### Issue: "Target already has conflicting configurations"
@@ -378,7 +378,7 @@ monaco deploy \
 # Verify disk space for configurations
 
 # 4. Use background execution
-nohup ./scripts/migrate.sh > migration.out 2>&1 &
+nohup ./scripts/bash/migrate.sh > migration.out 2>&1 &
 # Monitor: tail -f migration.out
 ```
 
