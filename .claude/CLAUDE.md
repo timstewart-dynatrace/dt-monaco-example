@@ -81,6 +81,11 @@ Detailed phase management rules: @.claude/rules/core.md
 @.claude/rules/debugging.md
 @.claude/rules/existing-code.md
 
+## Skills
+
+### Monaco CLI & Tenant Migration
+@/Users/Shared/GitHub/PROJECTS/VisualCode-AI-Template/SKILLS/dynatrace-monaco/SKILL.md
+
 ## Decision Log
 
 See `.claude/DECISIONS.md` to track architectural and technical decisions.

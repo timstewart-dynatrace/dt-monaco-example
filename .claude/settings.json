@@ -1,7 +1,7 @@
 {
   "projectName": "Dynatrace Monaco Tools",
   "projectType": "python",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Standalone tools for Dynatrace configuration management and migration using Monaco CLI",
 
   "repository": {
@@ -35,5 +35,5 @@
     "requirementsFile": "requirements.txt"
   },
 
-  "customInstructions": "When a task is complete, perform the 'Reflection Protocol': 1. Update MEMORY.md with non-obvious quirks. 2. Log design decisions to DECISIONS.md. 3. Update active phase file with next step. 4. Do automatically before summarizing."
+  "customInstructions": "When a task is complete: 1. Log design decisions to DECISIONS.md. 2. Update active phase file with next step. 3. Do automatically before summarizing."
 }

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-04-16
+
 ### Added
 - PowerShell scripts for all tools (Windows PowerShell 5.1+ compatible)
 - Python ports for all Bash-only scripts (s2s-export, clone-config, setup)
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `.claude/` directory with AI assistant instructions following best practices
 - `DECISIONS.md` for architectural decision tracking
 - `CHANGELOG.md` following Keep a Changelog format
+- Reference to `dynatrace-monaco` skill from SKILLS library
 
 ### Changed
 - Reorganized all scripts from flat `scripts/` into `scripts/{bash,python,powershell}/` subdirectories
