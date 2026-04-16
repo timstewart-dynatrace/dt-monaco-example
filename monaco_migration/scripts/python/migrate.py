@@ -27,7 +27,6 @@ Examples:
 """
 
 import argparse
-import json
 import logging
 import os
 import subprocess
@@ -35,7 +34,7 @@ import sys
 import yaml
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import List, Optional
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -156,7 +155,7 @@ class MonacoMigration:
             else:
                 logger.error(f'✗ {tenant_name} tenant returned status {response.status_code}')
                 return False
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             logger.error(f'✗ Error connecting to {tenant_name} tenant: {e}')
             return False
 
@@ -290,7 +289,7 @@ class MonacoMigration:
                 'deploy',
                 '--environment', environment,
                 '--config-file', str(self.config_dir / 'environments.yaml'),
-                config_dir,
+                str(config_dir),
             ]
 
             logger.debug(f'Running command: {" ".join(cmd)}')

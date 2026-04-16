@@ -173,6 +173,7 @@ try {
         -ContentType "application/json; charset=utf-8"
 
     $MonacoToken = $tokenResponse.token
+    $MonacoTokenId = $tokenResponse.id
 }
 catch {
     Write-LogError "Failed to generate Monaco API token."
@@ -274,7 +275,20 @@ Write-LogInfo "Archiving to $archiveName..."
 Compress-Archive -Path $directoryName -DestinationPath $archiveName -Force
 Write-LogInfo "Archive created: $archiveName"
 
-# --- Step 6: Cleanup ---
+# --- Step 6: Revoke token and cleanup ---
+
+if ($MonacoTokenId) {
+    Write-LogInfo "Revoking generated Monaco API token..."
+    try {
+        $revokeHeaders = @{ "Authorization" = "Api-Token $EnvToken" }
+        Invoke-RestMethod -Uri "$TenantUrl/api/v2/apiTokens/$MonacoTokenId" `
+            -Method Delete -Headers $revokeHeaders | Out-Null
+        Write-LogInfo "Token revoked successfully."
+    }
+    catch {
+        Write-LogWarning "Failed to revoke token. Delete manually in Dynatrace UI."
+    }
+}
 
 Remove-TempFiles
 

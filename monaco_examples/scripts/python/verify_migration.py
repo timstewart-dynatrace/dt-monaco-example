@@ -8,8 +8,7 @@ import argparse
 import logging
 import os
 import sys
-from datetime import datetime
-from typing import Dict, Tuple
+from typing import Tuple
 
 try:
     import requests
@@ -163,7 +162,7 @@ class MigrationVerifier:
             return False
 
 
-def main() -> None:
+def main() -> int:
     """Parse arguments and run verification."""
     parser = argparse.ArgumentParser(
         description='Verify successful Dynatrace configuration migration'

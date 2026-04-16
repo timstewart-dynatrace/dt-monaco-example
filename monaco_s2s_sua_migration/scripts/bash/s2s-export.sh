@@ -29,7 +29,7 @@ for cmd in curl jq grep awk; do
 done
 
 # Check if the tenant ID is provided as an argument
-if [ $# -ne 1 ]; then
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
     echo "Usage: $0 <tenantId> [environment-url-base]"
     echo "  tenantId: Dynatrace tenant ID"
     echo "  environment-url-base: Optional. Base URL (default: live.dynatrace.com)"
@@ -48,19 +48,19 @@ environment_url_base="${2:-live.dynatrace.com}"
 tenantUrl="https://${tenantId}.${environment_url_base}"
 
 # Set the platform architecture based on the system
-if [ $(uname) == "Darwin" ]; then
-    if [ $(uname -m) == "x86_64" ]; then
+if [ "$(uname)" == "Darwin" ]; then
+    if [ "$(uname -m)" == "x86_64" ]; then
         platform="darwin-amd64"
-    elif [ $(uname -m) == "arm64" ]; then
+    elif [ "$(uname -m)" == "arm64" ]; then
         platform="darwin-arm64"
     else
         echo "Error: Unsupported architecture for macOS."
         exit 1
     fi
-elif [ $(uname) == "Linux" ]; then
-    if [ $(uname -m) == "x86_64" ]; then
+elif [ "$(uname)" == "Linux" ]; then
+    if [ "$(uname -m)" == "x86_64" ]; then
         platform="linux-amd64"
-    elif [ $(uname -m) == "i386" ]; then
+    elif [ "$(uname -m)" == "i386" ]; then
         platform="linux-386"
     else
         echo "Error: Unsupported architecture for Linux."
@@ -123,6 +123,7 @@ token_response=$(curl -s -X POST "${tenantUrl}/api/v2/apiTokens" \
   -d '{"name":"rs-monaco-test","scopes":["attacks.read","entities.read","extensionConfigurations.read","extensionEnvironment.read","extensions.read","geographicRegions.read","javaScriptMappingFiles.read","networkZones.read","settings.read","slo.read","syntheticExecutions.read","syntheticLocations.read","DataExport","DssFileManagement","ExternalSyntheticIntegration","ReadConfig","ReadSyntheticData","RumJavaScriptTagManagement"]}')
 
 export MONACO_TOKEN=$(echo "${token_response}" | jq -r '.token // empty')
+MONACO_TOKEN_ID=$(echo "${token_response}" | jq -r '.id // empty')
 
 if [ -z "${MONACO_TOKEN}" ]; then
     echo -e "${RED}Error: Failed to generate Monaco API token.${NC}"
@@ -189,9 +190,18 @@ base_name="$(basename "${directory_name}")"
 tar -czf "${directory_name}.tar.gz" -C "$(dirname "${directory_name}")" "${base_name}"
 echo -e "${GREEN}Archive created: ${directory_name}.tar.gz${NC}"
 
+# Revoke the generated Monaco API token
+if [ -n "${MONACO_TOKEN_ID:-}" ]; then
+    echo -e "${GREEN}Revoking generated Monaco API token...${NC}"
+    curl -s -X DELETE "${tenantUrl}/api/v2/apiTokens/${MONACO_TOKEN_ID}" \
+        -H "Authorization: Api-Token ${ENV_TOKEN}" > /dev/null 2>&1 \
+        && echo -e "${GREEN}Token revoked successfully.${NC}" \
+        || echo -e "${YELLOW}Warning: Failed to revoke token. Delete manually in Dynatrace UI.${NC}"
+fi
+
 # Clean up temporary files
 echo -e "${GREEN}Cleaning up temporary files...${NC}"
-rm -f monaco mongo_checksum manifest.yaml
+rm -f monaco monaco_checksum manifest.yaml
 rm -rf "${tenantId}"
 
 echo -e "${GREEN}Export completed successfully!${NC}"

@@ -51,20 +51,20 @@ environments:
 EOF
 
 # Build monaco command
-CMD="monaco download"
-CMD="$CMD --environment source"
-CMD="$CMD --config-file $OUTPUT_DIR/environments.yaml"
-CMD="$CMD --output-folder $OUTPUT_DIR"
+CMD=("monaco" "download"
+    "--environment" "source"
+    "--config-file" "$OUTPUT_DIR/environments.yaml"
+    "--output-folder" "$OUTPUT_DIR")
 
 if [[ -n "$CONFIG_TYPES" ]]; then
     for type in $(echo "$CONFIG_TYPES" | tr ',' ' '); do
-        CMD="$CMD --config-type $type"
+        CMD+=("--config-type" "$type")
     done
 fi
 
-log_info "Running: $CMD"
+log_info "Running: ${CMD[*]}"
 
-if eval "$CMD"; then
+if "${CMD[@]}"; then
     log_success "Configuration cloned successfully"
     log_info "Location: $(pwd)/$OUTPUT_DIR"
     echo ""

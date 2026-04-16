@@ -217,12 +217,12 @@ function Invoke-DownloadConfiguration {
     }
 
     $envFile = Join-Path $ConfigDir "environments.yaml"
-    $args = @("download", "--environment", $Environment, "--config-file", $envFile, "--output-folder", $TargetDir)
+    $monacoArgs = @("download", "--environment", $Environment, "--config-file", $envFile, "--output-folder", $TargetDir)
 
-    Write-LogInfo "Running: monaco $($args -join ' ')"
+    Write-LogInfo "Running: monaco $($monacoArgs -join ' ')"
 
     try {
-        $output = & monaco @args 2>&1
+        $output = & monaco @monacoArgs 2>&1
         $exitCode = $LASTEXITCODE
         if ($exitCode -eq 0) {
             Write-LogSuccess "Configuration downloaded from $Environment"
@@ -269,6 +269,16 @@ function Test-Configuration {
                 Write-Log "Invalid YAML (tabs) in $($file.FullName)" "ERROR"
                 return $false
             }
+            # Check for basic key-value structure (at least one "key: value" line)
+            $nonCommentLines = ($content -split "`n") | Where-Object { $_.Trim() -and -not $_.Trim().StartsWith("#") }
+            if ($nonCommentLines.Count -gt 0) {
+                $hasKeyValue = $nonCommentLines | Where-Object { $_ -match "^\s*[\w.-]+\s*:" }
+                if (-not $hasKeyValue) {
+                    Write-LogError "Invalid YAML (no key-value pairs found): $($file.FullName)"
+                    Write-Log "Invalid YAML (structure) in $($file.FullName)" "ERROR"
+                    return $false
+                }
+            }
             Write-LogInfo "  Valid: $($file.Name)"
         }
         catch {
@@ -299,12 +309,12 @@ function Invoke-DeployConfiguration {
     }
 
     $envFile = Join-Path $ConfigDir "environments.yaml"
-    $args = @("deploy", "--environment", $Environment, "--config-file", $envFile, $Path)
+    $monacoArgs = @("deploy", "--environment", $Environment, "--config-file", $envFile, $Path)
 
-    Write-LogInfo "Running: monaco $($args -join ' ')"
+    Write-LogInfo "Running: monaco $($monacoArgs -join ' ')"
 
     try {
-        $output = & monaco @args 2>&1
+        $output = & monaco @monacoArgs 2>&1
         $exitCode = $LASTEXITCODE
         if ($exitCode -eq 0) {
             Write-LogSuccess "Configuration deployed to $Environment"

@@ -70,8 +70,10 @@ OPTIONS:
     --source-token TOKEN        API token for source tenant
     --target-token TOKEN        API token for target tenant
     --config-dir DIR            Configuration directory (default: config)
+    --config-types TYPES        Comma-separated config types to migrate
     --dry-run                   Preview changes without applying
     --no-backup                 Skip backup of target configuration
+    --list-types                List all available configuration types
     --help                      Show this help message
 
 ENVIRONMENT VARIABLES:
@@ -99,6 +101,40 @@ EOF
     exit 0
 }
 
+list_config_types() {
+    cat << EOF
+
+Available Configuration Types:
+
+Type                                        Description
+────────────────────────────────────────────────────────────────────────────────
+alerting-profiles                           Alert notification rules
+app-detection-rule                          Application detection rules
+auto-tag                                    Auto-tagging rules
+calculated-metrics-log                      Calculated metrics for logs
+calculated-metrics-service                  Calculated metrics for services
+calculated-synthetic-events                 Calculated synthetic events
+credential                                  Stored credentials
+custom-app-configs                          Custom app configurations
+custom-app-crashes-allowlist                Custom app crash allowlists
+dashboard                                   Gen3 dashboards
+extension                                   Extensions
+host-monitoring-advanced-configuration      Host monitoring advanced config
+kubernetes-app                              Kubernetes app monitoring
+log-custom-source                           Custom log sources
+log-events-to-metric-v2                     Log event to metric rules
+log-processing-rule                         Log processing rules
+management-zone                             Management zones
+notification                                Notification configurations
+request-naming                              Request naming rules
+service-detection-rule                      Service detection rules
+settings                                    Settings (various)
+synthetic-location                          Synthetic test locations
+synthetic-monitor                           Synthetic monitors
+
+EOF
+}
+
 parse_arguments() {
     while [[ $# -gt 0 ]]; do
         case $1 in
@@ -122,6 +158,10 @@ parse_arguments() {
                 CONFIG_DIR="$2"
                 shift 2
                 ;;
+            --config-types)
+                CONFIG_TYPES="$2"
+                shift 2
+                ;;
             --dry-run)
                 DRY_RUN=true
                 shift
@@ -129,6 +169,10 @@ parse_arguments() {
             --no-backup)
                 NO_BACKUP=true
                 shift
+                ;;
+            --list-types)
+                list_config_types
+                exit 0
                 ;;
             --help)
                 print_help
@@ -216,14 +260,20 @@ download_configuration() {
 
     mkdir -p "$target_dir"
 
-    local cmd="monaco download"
-    cmd="$cmd --environment $environment"
-    cmd="$cmd --config-file $CONFIG_DIR/environments.yaml"
-    cmd="$cmd --output-folder $target_dir"
+    local cmd=("monaco" "download"
+        "--environment" "$environment"
+        "--config-file" "$CONFIG_DIR/environments.yaml"
+        "--output-folder" "$target_dir")
 
-    log_info "Running: $cmd"
+    if [[ -n "${CONFIG_TYPES:-}" ]]; then
+        for config_type in $(echo "$CONFIG_TYPES" | tr ',' ' '); do
+            cmd+=("--config-type" "$config_type")
+        done
+    fi
 
-    if eval "$cmd"; then
+    log_info "Running: ${cmd[*]}"
+
+    if "${cmd[@]}"; then
         log_success "✓ Configuration downloaded from $environment"
         return 0
     else
@@ -276,14 +326,14 @@ deploy_configuration() {
         return 0
     fi
 
-    local cmd="monaco deploy"
-    cmd="$cmd --environment $environment"
-    cmd="$cmd --config-file $CONFIG_DIR/environments.yaml"
-    cmd="$cmd $config_dir"
+    local cmd=("monaco" "deploy"
+        "--environment" "$environment"
+        "--config-file" "$CONFIG_DIR/environments.yaml"
+        "$config_dir")
 
-    log_info "Running: $cmd"
+    log_info "Running: ${cmd[*]}"
 
-    if eval "$cmd"; then
+    if "${cmd[@]}"; then
         log_success "✓ Configuration deployed to $environment"
         return 0
     else
