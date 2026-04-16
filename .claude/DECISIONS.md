@@ -6,12 +6,12 @@ Use the format below. Log decisions **at the time** they're made, not retroactiv
 
 ---
 
-## 2026-04-10 — Dual Python/Shell Script Approach
+## 2026-04-10 — Python/Shell/PowerShell Script Approach
 
-**Chosen:** Provide both Python and Shell implementations for migration scripts
+**Chosen:** Provide Python, Bash, and PowerShell implementations for migration scripts
 **Alternatives:** Python-only, Shell-only, Go CLI
-**Why:** Maximizes accessibility across environments. Some production servers only have Bash; some teams prefer Python for its readability and error handling. Both scripts share the same workflow and produce identical results.
-**Trade-offs:** Two codepaths to maintain. Changes must be reflected in both implementations.
+**Why:** Maximizes accessibility across environments and platforms. Some production servers only have Bash; some teams prefer Python for its readability and error handling; Windows users need PowerShell without additional setup. All scripts share the same workflow and produce identical results.
+**Trade-offs:** Three codepaths to maintain. Changes must be reflected in all implementations.
 **Revisit if:** One implementation becomes significantly more popular, or maintenance burden grows.
 
 ---

@@ -47,7 +47,6 @@ check_command() {
 
 all_deps_ok=true
 
-check_command "java" || all_deps_ok=false
 check_command "python3" || all_deps_ok=false
 check_command "curl" || all_deps_ok=false
 
@@ -122,7 +121,7 @@ if ! command -v monaco &> /dev/null; then
     echo -e "\n${YELLOW}[!] Monaco CLI not found. Install it:${NC}"
     echo ""
     echo "  mkdir -p ~/tools/monaco"
-    echo "  curl -L https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/v1.9.0/monaco-v1.9.0-macos-arm64 -o ~/tools/monaco/monaco"
+    echo "  curl -L https://github.com/Dynatrace/dynatrace-configuration-as-code/releases/latest/download/monaco-darwin-arm64 -o ~/tools/monaco/monaco"
     echo "  chmod +x ~/tools/monaco/monaco"
     echo "  export PATH=\"\$PATH:\$HOME/tools/monaco\""
     echo ""

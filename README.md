@@ -28,7 +28,7 @@ Export and migrate configurations between Dynatrace SaaS tenants. Ideal for:
 - Configuration evaluation before migration
 - Batch migration of multiple SaaS environments
 
-**Includes:** Shell script for export, complete usage guide, troubleshooting
+**Includes:** Python, Bash & PowerShell scripts for export, complete usage guide, troubleshooting
 
 👉 **[See monaco_s2s_sua_migration/README.md](monaco_s2s_sua_migration/README.md)**
 
@@ -55,6 +55,7 @@ Each package is **completely standalone**. Pick the one you need:
 **Python (macOS/Linux/Windows):**
 ```bash
 cd monaco_migration/
+pip install -r requirements.txt
 cp config/.env.example .env
 nano .env  # Add your tenant URLs and tokens
 source .env
@@ -205,79 +206,3 @@ See Monaco repository for licensing information.
 - 🔑 Set up API tokens
 - ⚙️ Configure your environment
 - 🚀 Run the migration or export
-
-
-### Using Environment Variables
-
-```bash
-source .env
-python scripts/python/migrate.py
-```
-
-## Configuration Files
-
-Edit `config/environments.yaml` to define your tenants:
-
-```yaml
-environments:
-  source:
-    name: source-tenant
-    url: https://source-tenant.live.dynatrace.com
-    token: ${SOURCE_TENANT_TOKEN}
-  
-  target:
-    name: target-tenant
-    url: https://target-tenant.live.dynatrace.com
-    token: ${TARGET_TENANT_TOKEN}
-```
-
-## Features
-
-- ✅ Clone configuration from source to target tenant
-- ✅ Support for all Dynatrace configuration types
-- ✅ Dry-run mode to preview changes
-- ✅ Validation before deployment
-- ✅ Rollback capabilities
-- ✅ Detailed logging
-
-## Getting API Tokens
-
-1. Go to your Dynatrace tenant
-2. Navigate to **Settings** → **Integration** → **Dynatrace API**
-3. Create a new token with the following scopes:
-   - Read configuration (`config.read`)
-   - Write configuration (`config.write`)
-   - Read Dashboards (`dashboards.read`)
-   - Write Dashboards (`dashboards.write`)
-   - And other necessary scopes based on your use case
-
-## Troubleshooting
-
-### "Monaco command not found"
-
-Ensure Monaco is in your PATH:
-```bash
-export PATH="$PATH:$HOME/tools/monaco"
-```
-
-### "Invalid API token"
-
-- Verify your tokens are correct
-- Check that tokens have the necessary scopes
-- Ensure tokens haven't expired
-
-### "Configuration validation failed"
-
-- Check the error messages in the logs
-- Verify your configuration YAML is properly formatted
-- Ensure all required fields are present
-
-## References
-
-- [Dynatrace Monaco Documentation](https://github.com/dynatrace-oss/dynatrace-monitoring-as-code)
-- [Dynatrace API Documentation](https://www.dynatrace.com/support/help/dynatrace-api)
-- [Configuration as Code Best Practices](https://www.dynatrace.com/support/help/how-to-use-dynatrace/configuration-management/configuration-as-code)
-
-## License
-
-MIT

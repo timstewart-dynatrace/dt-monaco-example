@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-04-16
+
+### Fixed
+- fix(security): revoke generated Monaco API tokens after s2s-export completes (all languages)
+- fix(bash): typo `mongo_checksum` preventing cleanup of checksum file in s2s-export
+- fix(python): `Path` object passed to `subprocess.run` breaking on Python 3.8
+- fix(bash): replace `eval` with array execution in all migration scripts (injection hardening)
+- fix(bash): quote `$(uname)` command substitutions in s2s-export scripts
+- fix(bash): argument count check now allows optional second argument in s2s-export
+- fix(bash): add `--config-types` and `--list-types` to production migrate.sh (feature parity with Python)
+- fix(python): return type hint `-> None` corrected to `-> int` in verify_migration.py
+- fix(bash): update stale Monaco v1 repo URLs to current Dynatrace/dynatrace-configuration-as-code
+- fix(python): remove unused imports (`json`, `Dict`, `datetime`, `os`) across scripts
+- fix(python): narrow `except Exception` to `except requests.exceptions.RequestException`
+- fix(powershell): rename `$args` to `$monacoArgs` to avoid automatic variable shadowing
+- fix(powershell): enhance YAML validation to check for key-value structure
+- fix(bash): remove incorrect `java` dependency check from setup wizard
+- fix(docs): remove ~75 lines of duplicate/orphaned content from root README
+- fix(docs): add missing `pip install` step to root README Python quick-start
+- fix(docs): update s2s package description to list all three languages
+- fix(docs): normalize .env.example quoting format across packages
+- fix(docs): update DECISIONS.md to reflect three-language (Python/Bash/PowerShell) approach
+- fix(docs): add missing `requirements.txt` to architecture.md for monaco_examples
+- fix(docs): update .claude/CLAUDE.md "Last Updated" date
+
 ## [0.2.0] - 2026-04-16
 
 ### Added

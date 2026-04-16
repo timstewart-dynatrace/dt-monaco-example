@@ -153,8 +153,12 @@ def download_monaco(platform_suffix: str) -> Path:
     return monaco_binary
 
 
-def generate_monaco_token(tenant_url: str, env_token: str) -> str:
-    """Generate a scoped Monaco API token using the environment token."""
+def generate_monaco_token(tenant_url: str, env_token: str) -> tuple:
+    """Generate a scoped Monaco API token using the environment token.
+
+    Returns:
+        Tuple of (token_value, token_id) for later revocation.
+    """
     logger.info("Generating Monaco API token...")
 
     headers = {
@@ -177,13 +181,32 @@ def generate_monaco_token(tenant_url: str, env_token: str) -> str:
     data = response.json()
 
     token = data.get("token")
+    token_id = data.get("id")
     if not token:
         logger.error("Failed to generate Monaco API token")
         logger.error(f"Response: {json.dumps(data, indent=2)}")
         sys.exit(1)
 
     logger.info("Monaco token generated successfully.")
-    return token
+    return token, token_id
+
+
+def revoke_monaco_token(tenant_url: str, env_token: str, token_id: Optional[str]) -> None:
+    """Revoke a previously generated Monaco API token."""
+    if not token_id:
+        return
+    logger.info("Revoking generated Monaco API token...")
+    try:
+        headers = {"Authorization": f"Api-Token {env_token}"}
+        response = requests.delete(
+            f"{tenant_url}/api/v2/apiTokens/{token_id}",
+            headers=headers,
+            timeout=30,
+        )
+        response.raise_for_status()
+        logger.info("Token revoked successfully.")
+    except requests.exceptions.RequestException as e:
+        logger.warning(f"Failed to revoke token: {e}. Delete manually in Dynatrace UI.")
 
 
 def create_manifest(tenant_id: str, tenant_url: str) -> None:
@@ -301,6 +324,7 @@ def main() -> int:
 
     tenant_id = args.tenant_id
     tenant_url = f"https://{tenant_id}.{args.env_url_base}"
+    token_id = None
 
     try:
         # Step 1: Download Monaco binary
@@ -308,7 +332,7 @@ def main() -> int:
         monaco_binary = download_monaco(platform_suffix)
 
         # Step 2: Generate scoped API token
-        monaco_token = generate_monaco_token(tenant_url, env_token)
+        monaco_token, token_id = generate_monaco_token(tenant_url, env_token)
         os.environ["MONACO_TOKEN"] = monaco_token
 
         # Step 3: Create manifest.yaml
@@ -320,7 +344,8 @@ def main() -> int:
         # Step 5: Package export
         archive_name = package_export(tenant_id)
 
-        # Step 6: Cleanup
+        # Step 6: Revoke token and cleanup
+        revoke_monaco_token(tenant_url, env_token, token_id)
         cleanup(tenant_id)
 
         logger.info("Export completed successfully!")
@@ -329,10 +354,12 @@ def main() -> int:
 
     except requests.exceptions.HTTPError as e:
         logger.error(f"API error: {e}")
+        revoke_monaco_token(tenant_url, env_token, token_id)
         cleanup(tenant_id)
         return 1
     except Exception as e:
         logger.error(f"Fatal error: {e}", exc_info=True)
+        revoke_monaco_token(tenant_url, env_token, token_id)
         cleanup(tenant_id)
         return 1
 

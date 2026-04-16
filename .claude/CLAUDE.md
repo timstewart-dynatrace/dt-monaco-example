@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Standalone tools for Dynatrace configuration management and migration using [Monaco CLI](https://github.com/Dynatrace/dynatrace-configuration-as-code). Provides production-ready scripts for full tenant migration, SaaS-to-SaaS configuration export, and reference examples. Built for Dynatrace administrators who need reliable, safe configuration migration between tenants.
 
-**Last Updated:** 2026-04-10
+**Last Updated:** 2026-04-16
 
 ## Tech Stack
 

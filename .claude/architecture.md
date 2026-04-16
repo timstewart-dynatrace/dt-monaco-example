@@ -35,6 +35,7 @@ dt-monaco-example/
 │   ├── config/
 │   │   ├── .env.example
 │   │   └── environments.yaml
+│   ├── requirements.txt           # Python dependencies
 │   └── scripts/
 │       ├── bash/
 │       │   ├── clone-config.sh

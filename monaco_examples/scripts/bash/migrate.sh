@@ -201,7 +201,7 @@ verify_monaco_installed() {
     if ! command -v monaco &> /dev/null; then
         log_error "Monaco CLI not found"
         log_error "Please install Monaco first:"
-        log_error "  - Download from: https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases"
+        log_error "  - Download from: https://github.com/Dynatrace/dynatrace-configuration-as-code/releases"
         log_error "  - Add to PATH: export PATH=\"\$PATH:\$HOME/tools/monaco\""
         return 1
     fi
@@ -279,20 +279,20 @@ download_configuration() {
 
     mkdir -p "$target_dir"
 
-    local cmd="monaco download"
-    cmd="$cmd --environment $environment"
-    cmd="$cmd --config-file $CONFIG_DIR/environments.yaml"
-    cmd="$cmd --output-folder $target_dir"
+    local cmd=("monaco" "download"
+        "--environment" "$environment"
+        "--config-file" "$CONFIG_DIR/environments.yaml"
+        "--output-folder" "$target_dir")
 
     if [[ -n "${CONFIG_TYPES:-}" ]]; then
         for config_type in $(echo "$CONFIG_TYPES" | tr ',' ' '); do
-            cmd="$cmd --config-type $config_type"
+            cmd+=("--config-type" "$config_type")
         done
     fi
 
-    log_info "Running: $cmd"
+    log_info "Running: ${cmd[*]}"
 
-    if eval "$cmd"; then
+    if "${cmd[@]}"; then
         log_success "✓ Configuration downloaded from $environment"
         return 0
     else
@@ -351,14 +351,14 @@ deploy_configuration() {
         return 0
     fi
 
-    local cmd="monaco deploy"
-    cmd="$cmd --environment $environment"
-    cmd="$cmd --config-file $CONFIG_DIR/environments.yaml"
-    cmd="$cmd $config_dir"
+    local cmd=("monaco" "deploy"
+        "--environment" "$environment"
+        "--config-file" "$CONFIG_DIR/environments.yaml"
+        "$config_dir")
 
-    log_info "Running: $cmd"
+    log_info "Running: ${cmd[*]}"
 
-    if eval "$cmd"; then
+    if "${cmd[@]}"; then
         log_success "✓ Configuration deployed to $environment"
         return 0
     else
