@@ -55,6 +55,12 @@ dt-monaco-example/
 │           ├── setup.ps1
 │           └── verify_migration.ps1
 │
+├── images/                        # SVG diagrams for documentation
+│   ├── 00-project-overview.svg
+│   ├── 01-migration-workflow.svg
+│   ├── 02-migration-pipeline.svg
+│   └── 03-s2s-export-pipeline.svg
+│
 ├── .claude/                       # AI assistant instructions
 │   ├── CLAUDE.md
 │   ├── DECISIONS.md

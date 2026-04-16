@@ -86,6 +86,9 @@ Detailed phase management rules: @.claude/rules/core.md
 ### Monaco CLI & Tenant Migration
 @/Users/Shared/GitHub/PROJECTS/VisualCode-AI-Template/SKILLS/dynatrace-monaco/SKILL.md
 
+### SVG Graphics & Diagram Embedding
+@/Users/Shared/GitHub/PROJECTS/VisualCode-AI-Template/SKILLS/svg-graphics/SKILL.md
+
 ## Decision Log
 
 See `.claude/DECISIONS.md` to track architectural and technical decisions.

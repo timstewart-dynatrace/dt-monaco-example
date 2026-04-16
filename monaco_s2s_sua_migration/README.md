@@ -98,6 +98,8 @@ See [docs/S2S_EXPORT.md](docs/S2S_EXPORT.md) for:
 
 ## Workflow
 
+![SaaS-to-SaaS Export Pipeline](../images/03-s2s-export-pipeline.svg)
+
 1. **Export** - Run script to export from source SaaS tenant
 2. **Extract** - Unpack the configuration archive
 3. **Deploy** - Use Monaco CLI to deploy to target SaaS tenant

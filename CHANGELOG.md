@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-04-16
+
+### Added
+- SVG diagrams for all user-facing documentation following svg-graphics skill standards
+  - `00-project-overview.svg` — three-package comparison (root README)
+  - `01-migration-workflow.svg` — migration flow with backup and dry-run (root README)
+  - `02-migration-pipeline.svg` — 7-step pipeline detail (monaco_migration README)
+  - `03-s2s-export-pipeline.svg` — s2s export flow with token lifecycle (monaco_s2s README)
+- `images/` directory for SVG diagram assets
+- `svg-graphics` skill reference in `.claude/CLAUDE.md`
+
 ## [0.3.0] - 2026-04-16
 
 ### Fixed
