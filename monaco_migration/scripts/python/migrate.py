@@ -368,7 +368,7 @@ class MonacoMigration:
         return True
 
 
-def main():
+def main() -> None:
     """Parse arguments and execute migration."""
     parser = argparse.ArgumentParser(
         description='Migrate Dynatrace configuration between tenants using Monaco'

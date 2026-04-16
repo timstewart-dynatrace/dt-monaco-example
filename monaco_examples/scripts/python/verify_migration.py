@@ -163,7 +163,7 @@ class MigrationVerifier:
             return False
 
 
-def main():
+def main() -> None:
     """Parse arguments and run verification."""
     parser = argparse.ArgumentParser(
         description='Verify successful Dynatrace configuration migration'
