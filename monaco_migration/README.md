@@ -33,6 +33,8 @@ Complete standalone package for migrating all Dynatrace configurations from a so
    .\scripts\powershell\migrate.ps1
    ```
 
+![Full Tenant Migration — 7-Step Pipeline](../images/02-migration-pipeline.svg)
+
 ## What Gets Migrated
 
 A complete full tenant migration includes:

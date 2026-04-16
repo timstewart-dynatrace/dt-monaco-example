@@ -2,6 +2,8 @@
 
 Complete standalone tools for Dynatrace configuration management and migration using [Monaco CLI](https://github.com/Dynatrace/dynatrace-configuration-as-code).
 
+![Dynatrace Monaco Tools — Project Overview](images/00-project-overview.svg)
+
 ## What's Included
 
 ### 📦 **monaco_migration/**
@@ -154,6 +156,8 @@ Each package contains complete standalone documentation:
 | Learn / Reference | `monaco_examples` | — | Examples & templates |
 
 ---
+
+![Configuration Migration Workflow](images/01-migration-workflow.svg)
 
 ## Key Features
 

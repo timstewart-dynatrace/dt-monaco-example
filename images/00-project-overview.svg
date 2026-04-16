@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 930 500" font-family="Inter, system-ui, sans-serif">
+  <rect width="930" height="500" fill="#0F172A"/>
+
+  <!-- Title -->
+  <text x="465" y="38" text-anchor="middle" fill="#F8FAFC" font-size="22" font-weight="700">Dynatrace Monaco Tools</text>
+  <text x="465" y="62" text-anchor="middle" fill="#94A3B8" font-size="13">Three standalone packages for configuration management and migration</text>
+
+  <!-- Column 1: monaco_migration (Green) -->
+  <rect x="30" y="85" width="280" height="370" fill="#73BE28" opacity="0.08" stroke="#73BE28" stroke-width="1.5" rx="8"/>
+  <text x="170" y="112" text-anchor="middle" fill="#86EFAC" font-size="15" font-weight="700">monaco_migration</text>
+  <text x="170" y="132" text-anchor="middle" fill="#94A3B8" font-size="11">Full Tenant Migration</text>
+
+  <rect x="50" y="148" width="240" height="80" fill="#1E293B" stroke="#73BE28" stroke-width="1" rx="6"/>
+  <text x="170" y="170" text-anchor="middle" fill="#86EFAC" font-size="12" font-weight="600">Use Cases</text>
+  <text x="170" y="188" text-anchor="middle" fill="#94A3B8" font-size="10">Tenant consolidation</text>
+  <text x="170" y="203" text-anchor="middle" fill="#94A3B8" font-size="10">Environment promotion</text>
+  <text x="170" y="218" text-anchor="middle" fill="#94A3B8" font-size="10">Disaster recovery</text>
+
+  <rect x="50" y="240" width="240" height="65" fill="#1E293B" stroke="#73BE28" stroke-width="1" rx="6"/>
+  <text x="170" y="262" text-anchor="middle" fill="#86EFAC" font-size="12" font-weight="600">Languages</text>
+  <text x="170" y="280" text-anchor="middle" fill="#94A3B8" font-size="10">Python 3.8+  |  Bash 4.0+  |  PowerShell 5.1+</text>
+  <text x="170" y="295" text-anchor="middle" fill="#94A3B8" font-size="10">All produce identical results</text>
+
+  <rect x="50" y="317" width="240" height="80" fill="#1E293B" stroke="#73BE28" stroke-width="1" rx="6"/>
+  <text x="170" y="339" text-anchor="middle" fill="#86EFAC" font-size="12" font-weight="600">Key Features</text>
+  <text x="170" y="357" text-anchor="middle" fill="#94A3B8" font-size="10">Automatic backup before changes</text>
+  <text x="170" y="372" text-anchor="middle" fill="#94A3B8" font-size="10">Dry-run mode + YAML validation</text>
+  <text x="170" y="387" text-anchor="middle" fill="#94A3B8" font-size="10">23+ configuration types</text>
+
+  <!-- Separator -->
+  <rect x="50" y="407" width="240" height="24" fill="#73BE28" opacity="0.15" rx="4"/>
+  <text x="170" y="423" text-anchor="middle" fill="#86EFAC" font-size="10" font-weight="600">15-120 min  |  Full copy</text>
+
+  <!-- Column 2: monaco_s2s (Blue) -->
+  <rect x="325" y="85" width="280" height="370" fill="#1496FF" opacity="0.08" stroke="#1496FF" stroke-width="1.5" rx="8"/>
+  <text x="465" y="112" text-anchor="middle" fill="#BFDBFE" font-size="15" font-weight="700">monaco_s2s_sua_migration</text>
+  <text x="465" y="132" text-anchor="middle" fill="#94A3B8" font-size="11">SaaS-to-SaaS Export</text>
+
+  <rect x="345" y="148" width="240" height="80" fill="#1E293B" stroke="#1496FF" stroke-width="1" rx="6"/>
+  <text x="465" y="170" text-anchor="middle" fill="#BFDBFE" font-size="12" font-weight="600">Use Cases</text>
+  <text x="465" y="188" text-anchor="middle" fill="#94A3B8" font-size="10">Cross-tenant SaaS migration</text>
+  <text x="465" y="203" text-anchor="middle" fill="#94A3B8" font-size="10">Configuration backup</text>
+  <text x="465" y="218" text-anchor="middle" fill="#94A3B8" font-size="10">SaaS Upgrade Assistant</text>
+
+  <rect x="345" y="240" width="240" height="65" fill="#1E293B" stroke="#1496FF" stroke-width="1" rx="6"/>
+  <text x="465" y="262" text-anchor="middle" fill="#BFDBFE" font-size="12" font-weight="600">Languages</text>
+  <text x="465" y="280" text-anchor="middle" fill="#94A3B8" font-size="10">Python 3.8+  |  Bash 4.0+  |  PowerShell 5.1+</text>
+  <text x="465" y="295" text-anchor="middle" fill="#94A3B8" font-size="10">Auto-downloads Monaco binary</text>
+
+  <rect x="345" y="317" width="240" height="80" fill="#1E293B" stroke="#1496FF" stroke-width="1" rx="6"/>
+  <text x="465" y="339" text-anchor="middle" fill="#BFDBFE" font-size="12" font-weight="600">Key Features</text>
+  <text x="465" y="357" text-anchor="middle" fill="#94A3B8" font-size="10">Checksum-verified Monaco download</text>
+  <text x="465" y="372" text-anchor="middle" fill="#94A3B8" font-size="10">Scoped token generation + revocation</text>
+  <text x="465" y="387" text-anchor="middle" fill="#94A3B8" font-size="10">SUA-compatible archive output</text>
+
+  <rect x="345" y="407" width="240" height="24" fill="#1496FF" opacity="0.15" rx="4"/>
+  <text x="465" y="423" text-anchor="middle" fill="#BFDBFE" font-size="10" font-weight="600">5-30 min  |  Export + Deploy</text>
+
+  <!-- Column 3: monaco_examples (Purple) -->
+  <rect x="620" y="85" width="280" height="370" fill="#A78BFA" opacity="0.08" stroke="#A78BFA" stroke-width="1.5" rx="8"/>
+  <text x="760" y="112" text-anchor="middle" fill="#DDD6FE" font-size="15" font-weight="700">monaco_examples</text>
+  <text x="760" y="132" text-anchor="middle" fill="#94A3B8" font-size="11">Reference &amp; Examples</text>
+
+  <rect x="640" y="148" width="240" height="80" fill="#1E293B" stroke="#A78BFA" stroke-width="1" rx="6"/>
+  <text x="760" y="170" text-anchor="middle" fill="#DDD6FE" font-size="12" font-weight="600">Contents</text>
+  <text x="760" y="188" text-anchor="middle" fill="#94A3B8" font-size="10">Full migration example scripts</text>
+  <text x="760" y="203" text-anchor="middle" fill="#94A3B8" font-size="10">S2S export example scripts</text>
+  <text x="760" y="218" text-anchor="middle" fill="#94A3B8" font-size="10">Clone, setup, verify tools</text>
+
+  <rect x="640" y="240" width="240" height="65" fill="#1E293B" stroke="#A78BFA" stroke-width="1" rx="6"/>
+  <text x="760" y="262" text-anchor="middle" fill="#DDD6FE" font-size="12" font-weight="600">Languages</text>
+  <text x="760" y="280" text-anchor="middle" fill="#94A3B8" font-size="10">Python 3.8+  |  Bash 4.0+  |  PowerShell 5.1+</text>
+  <text x="760" y="295" text-anchor="middle" fill="#94A3B8" font-size="10">Reference implementations</text>
+
+  <rect x="640" y="317" width="240" height="80" fill="#1E293B" stroke="#A78BFA" stroke-width="1" rx="6"/>
+  <text x="760" y="339" text-anchor="middle" fill="#DDD6FE" font-size="12" font-weight="600">Includes</text>
+  <text x="760" y="357" text-anchor="middle" fill="#94A3B8" font-size="10">Setup wizard (interactive)</text>
+  <text x="760" y="372" text-anchor="middle" fill="#94A3B8" font-size="10">Config cloning utility</text>
+  <text x="760" y="387" text-anchor="middle" fill="#94A3B8" font-size="10">Post-migration verification</text>
+
+  <rect x="640" y="407" width="240" height="24" fill="#A78BFA" opacity="0.15" rx="4"/>
+  <text x="760" y="423" text-anchor="middle" fill="#DDD6FE" font-size="10" font-weight="600">Learning  |  Templates</text>
+
+  <!-- Footer -->
+  <line x1="30" y1="460" x2="900" y2="460" stroke="#334155" stroke-width="1"/>
+  <text x="465" y="482" text-anchor="middle" fill="#94A3B8" font-size="12">Each package is completely standalone — copy the directory you need</text>
+</svg>
